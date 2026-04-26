@@ -92,10 +92,8 @@ def load_contracts():
         ['player_id', 'apy', 'apy_cap_pct', 'guaranteed',
          'year_signed', 'draft_year', 'is_active']
     ].copy()
-    # Keep most recent contract per player
-    contracts = contracts.sort_values('year_signed', ascending=False)
-    contracts = contracts.drop_duplicates(subset='player_id', keep='first')
-    print(f"Contracts loaded: {len(contracts)} players")
+    contracts = contracts.dropna(subset=['player_id'])
+    print(f"Contracts loaded: {len(contracts)} contracts")
     return contracts
 
 
@@ -103,7 +101,11 @@ def load_contracts():
 
 def merge_and_filter(stats, contracts):
     df = stats.merge(contracts, on='player_id', how='inner')
+    # Only keep contracts that were active during the season
     df = df[df['season'] >= df['year_signed']]
+    # For each player-season, use the most recently signed valid contract
+    df = df.sort_values('year_signed', ascending=False)
+    df = df.drop_duplicates(subset=['player_id', 'season'], keep='first')
 
     filtered = []
     for pos, thresholds in MIN_THRESHOLDS.items():
