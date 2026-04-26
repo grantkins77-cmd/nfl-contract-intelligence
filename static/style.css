@@ -362,3 +362,52 @@ tbody td { padding: .65rem .75rem; }
 
 /* ── Utility ─────────────────────────────────────────────── */
 .hidden { display: none !important; }
+
+/* ── Mobile ──────────────────────────────────────────────── */
+
+/* Trend row: always scrollable so it never clips */
+.trend-row { overflow-x: auto; padding-bottom: .25rem; }
+
+@media (max-width: 600px) {
+  /* Header: pull "How It Works" out of absolute position */
+  header { padding: 1.75rem 1rem 1.25rem; }
+  header h1 { font-size: 1.5rem; }
+  .subtitle  { font-size: .82rem; }
+  .header-method-btn {
+    position: static;
+    display: inline-block;
+    margin-top: .75rem;
+  }
+
+  /* Main padding tighter */
+  main { padding: 1.5rem .9rem 4rem; }
+
+  /* Leaderboard header: stack title above tabs */
+  .lb-header { flex-direction: column; align-items: flex-start; gap: .75rem; }
+
+  /* Report header: stack contract info below player name, left-align it */
+  .report-header { flex-direction: column; gap: .75rem; }
+  .contract-info {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem;
+  }
+  .player-info h2 { font-size: 1.35rem; }
+
+  /* Score cards: smaller numbers at 2-col */
+  .score-number { font-size: 1.85rem; }
+
+  /* Narrative: tighter padding */
+  .narrative-box { padding: 1rem 1.1rem; }
+
+  /* Compare: stack pill + vs + search vertically */
+  .cmp-search-row { flex-direction: column; align-items: stretch; gap: .75rem; }
+  .cmp-pill { white-space: normal; text-align: center; }
+  .vs-badge { text-align: center; display: block; }
+  #compare-section .search-wrapper { max-width: 100% !important; }
+
+  /* Tables: smaller text so they don't need as much horizontal scroll */
+  table { font-size: .8rem; }
+  thead th, tbody td { padding: .5rem .5rem; }
+}
