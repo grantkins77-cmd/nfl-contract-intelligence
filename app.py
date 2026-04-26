@@ -124,7 +124,7 @@ def compare(id1, id2):
 # ── Claude narratives ─────────────────────────────────────────────────────────
 
 def generate_narrative(data: dict) -> str:
-    client = Anthropic()
+    client = Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY'))
     player = data['player']
     stats  = data['stats']
     score  = data['score']
