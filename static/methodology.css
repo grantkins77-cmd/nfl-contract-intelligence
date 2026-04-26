@@ -1,0 +1,143 @@
+.method-main { max-width: 800px; margin: 0 auto; padding: 2.5rem 1.25rem 5rem; }
+
+/* ── Hero ────────────────────────────────────────────────── */
+.method-hero {
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+.method-hero h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: .6rem; }
+.method-hero p  { color: var(--muted); font-size: 1rem; line-height: 1.75; max-width: 600px; }
+.method-hero strong { color: var(--text); }
+
+/* ── Steps ───────────────────────────────────────────────── */
+.steps { margin-bottom: 3rem; }
+
+.step {
+  display: flex; gap: 1.25rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.step:last-child { border-bottom: none; }
+
+.step-num {
+  flex-shrink: 0;
+  width: 36px; height: 36px;
+  background: var(--blue); color: #fff;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .9rem;
+  margin-top: .15rem;
+}
+
+.step-body h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .6rem; }
+.step-body p  { color: var(--muted); line-height: 1.75; }
+.step-body strong { color: var(--text); }
+
+/* ── Formula grid ────────────────────────────────────────── */
+.formula-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: .75rem;
+  margin-top: 1.1rem;
+}
+
+.formula-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.formula-pos {
+  font-size: .75rem; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .08em;
+  margin-bottom: .5rem;
+}
+.formula-card code {
+  display: block;
+  font-family: "SF Mono", "Fira Code", monospace;
+  font-size: .8rem;
+  color: var(--text);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .5rem .7rem;
+  margin-bottom: .65rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.formula-card p { font-size: .82rem; color: var(--muted); line-height: 1.6; }
+
+.blue-text  { color: var(--blue); }
+.elite-text { color: var(--elite); }
+.fair-text  { color: var(--fair); }
+.over-text  { color: var(--over); }
+
+/* ── Callout ─────────────────────────────────────────────── */
+.callout {
+  background: var(--surface);
+  border-left: 3px solid var(--blue);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: .85rem 1.1rem;
+  margin-top: 1rem;
+  font-size: .9rem;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.callout strong { color: var(--text); }
+
+/* ── Score legend ────────────────────────────────────────── */
+.score-legend { margin: 1rem 0; display: flex; flex-direction: column; gap: .6rem; }
+.score-legend-row {
+  display: flex; align-items: center; gap: .85rem;
+  font-size: .88rem; color: var(--muted);
+}
+
+/* ── Glossary ────────────────────────────────────────────── */
+.glossary {
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.glossary h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.1rem; }
+.glossary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+.glossary-item {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.1rem;
+}
+.glossary-item dt {
+  font-size: .8rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--blue); margin-bottom: .4rem;
+}
+.glossary-item dd { font-size: .875rem; color: var(--muted); line-height: 1.7; }
+
+/* ── Caveats ─────────────────────────────────────────────── */
+.caveats {
+  margin-bottom: 3rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.caveats h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+.caveats ul { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+.caveats li {
+  padding-left: 1.25rem;
+  position: relative;
+  font-size: .9rem; color: var(--muted); line-height: 1.7;
+}
+.caveats li::before {
+  content: '·'; position: absolute; left: 0;
+  color: var(--muted); font-size: 1.2rem; line-height: 1.5;
+}
+.caveats li strong { color: var(--text); }
+
+/* ── Sources ─────────────────────────────────────────────── */
+.sources h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; }
+.sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.source-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1rem 1.1rem;
+}
+.source-title { font-weight: 700; margin-bottom: .2rem; }
+.source-sub   { font-size: .78rem; color: var(--blue); margin-bottom: .5rem; }
+.source-desc  { font-size: .85rem; color: var(--muted); line-height: 1.6; }

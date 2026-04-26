@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NFL Contract Intelligence</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>NFL Contract Intelligence</h1>
+    <p class="subtitle">2025 Season · Skill Positions Only (QB · RB · WR · TE)</p>
+    <a href="/methodology" class="header-method-btn">How It Works</a>
+  </header>
+
+  <main>
+
+    <!-- ── Search ─────────────────────────────────────────── -->
+    <section class="search-section">
+      <div class="search-wrapper">
+        <svg class="search-icon" viewBox="0 0 16 16" fill="none">
+          <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input id="search-input" class="search-input" type="text" placeholder="Search any NFL skill position player…" autocomplete="off" />
+        <ul id="autocomplete-list" class="autocomplete-list hidden"></ul>
+      </div>
+    </section>
+
+    <!-- ── Leaderboards ───────────────────────────────────── -->
+    <section id="leaderboards">
+      <div class="lb-header">
+        <h2>2025 Contract Value Rankings</h2>
+        <div class="pos-tabs" id="lb-tabs">
+          <button class="pos-tab active" data-pos="QB">QB</button>
+          <button class="pos-tab" data-pos="RB">RB</button>
+          <button class="pos-tab" data-pos="WR">WR</button>
+          <button class="pos-tab" data-pos="TE">TE</button>
+        </div>
+      </div>
+
+      <div id="lb-loading" class="lb-skeleton">
+        <div class="lb-grid">
+          <div>
+            <div class="skel-block" style="width:100px;height:14px;margin-bottom:.75rem"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+          </div>
+          <div>
+            <div class="skel-block" style="width:120px;height:14px;margin-bottom:.75rem"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+            <div class="skel-block lb-skel-card"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="lb-body" class="hidden">
+        <div class="lb-grid">
+          <div class="lb-col">
+            <div class="lb-col-head elite-text">Best Value</div>
+            <div id="lb-top"></div>
+          </div>
+          <div class="lb-col">
+            <div class="lb-col-head over-text">Most Overpaid</div>
+            <div id="lb-bottom"></div>
+          </div>
+        </div>
+        <button id="lb-expand-btn" class="btn-text">View full rankings ↓</button>
+        <div id="lb-full" class="hidden">
+          <table class="lb-table">
+            <thead>
+              <tr>
+                <th>Rank</th><th>Player</th><th>Team</th>
+                <th>APY</th><th>Games</th>
+                <th>Value Score</th><th>Tier</th>
+              </tr>
+            </thead>
+            <tbody id="lb-full-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Skeleton (report loading) ─────────────────────── -->
+    <div id="skeleton" class="hidden">
+      <div class="report-header">
+        <div class="player-info">
+          <div class="skel-block" style="width:260px;height:34px;margin-bottom:.6rem"></div>
+          <div style="display:flex;gap:.4rem">
+            <div class="skel-block" style="width:38px;height:22px;border-radius:4px"></div>
+            <div class="skel-block" style="width:60px;height:22px;border-radius:4px"></div>
+            <div class="skel-block" style="width:130px;height:22px;border-radius:4px"></div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.5rem">
+          <div class="skel-block" style="width:110px;height:24px;border-radius:20px"></div>
+          <div class="skel-block" style="width:90px;height:28px"></div>
+          <div class="skel-block" style="width:100px;height:26px;border-radius:20px"></div>
+        </div>
+      </div>
+      <div class="score-grid" style="margin-top:1.5rem">
+        <div class="skel-block" style="height:118px;border-radius:8px"></div>
+        <div class="skel-block" style="height:118px;border-radius:8px"></div>
+        <div class="skel-block" style="height:118px;border-radius:8px"></div>
+        <div class="skel-block" style="height:118px;border-radius:8px"></div>
+      </div>
+      <div style="margin-top:1.5rem">
+        <div class="skel-block" style="width:70px;height:12px;margin-bottom:.9rem"></div>
+        <div class="stats-grid">
+          <div class="skel-block" style="height:78px;border-radius:8px"></div>
+          <div class="skel-block" style="height:78px;border-radius:8px"></div>
+          <div class="skel-block" style="height:78px;border-radius:8px"></div>
+          <div class="skel-block" style="height:78px;border-radius:8px"></div>
+          <div class="skel-block" style="height:78px;border-radius:8px"></div>
+          <div class="skel-block" style="height:78px;border-radius:8px"></div>
+        </div>
+      </div>
+      <div class="skel-block" style="margin-top:1.5rem;height:170px;border-radius:8px"></div>
+    </div>
+
+    <!-- ── Report ─────────────────────────────────────────── -->
+    <section id="report" class="hidden">
+
+      <div class="report-header">
+        <div class="player-info">
+          <h2 id="r-name"></h2>
+          <div class="player-meta">
+            <span id="r-position" class="badge pos-badge"></span>
+            <span id="r-team" class="badge secondary"></span>
+            <span id="r-contract-type" class="badge contract-type-badge"></span>
+          </div>
+        </div>
+        <div class="contract-info">
+          <div id="r-rank" class="rank-badge"></div>
+          <div id="r-apy" class="apy-text"></div>
+          <span id="r-tier" class="tier-badge"></span>
+        </div>
+      </div>
+
+      <div class="score-grid">
+        <div class="score-card featured" id="value-card">
+          <div class="score-label">Value Score</div>
+          <div class="score-number" id="r-value-score"></div>
+          <div class="score-bar-wrap"><div class="score-bar" id="r-value-bar"></div></div>
+          <div class="score-sub">0 – 100 within position</div>
+        </div>
+        <div class="score-card">
+          <div class="score-label">Performance</div>
+          <div class="score-number" id="r-perf-norm"></div>
+          <div class="score-bar-wrap"><div class="score-bar neutral" id="r-perf-bar"></div></div>
+          <div class="score-sub">normalized vs peers</div>
+        </div>
+        <div class="score-card">
+          <div class="score-label">Expected</div>
+          <div class="score-number" id="r-expected"></div>
+          <div class="score-bar-wrap"><div class="score-bar neutral" id="r-expected-bar"></div></div>
+          <div class="score-sub">for salary tier</div>
+        </div>
+        <div class="score-card">
+          <div class="score-label">Value Delta</div>
+          <div class="score-number" id="r-delta"></div>
+          <div class="score-sub">actual – expected</div>
+        </div>
+      </div>
+
+      <!-- Trend -->
+      <div class="trend-section" id="r-trend-wrap">
+        <h3 class="section-title">Value Score Trend</h3>
+        <div id="r-trend" class="trend-row"></div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-section">
+        <h3 class="section-title">2025 Stats</h3>
+        <div class="stats-grid" id="r-stats-grid"></div>
+      </div>
+
+      <!-- Narrative -->
+      <div class="narrative-box">
+        <h3 class="section-title">AI Valuation Report</h3>
+        <div id="r-narrative"></div>
+      </div>
+
+      <!-- Peers -->
+      <div class="peers-section">
+        <h3 class="section-title" id="r-peers-title">Position Rankings</h3>
+        <table>
+          <thead>
+            <tr><th>Rank</th><th>Player</th><th>APY</th><th>Value Score</th><th>Tier</th></tr>
+          </thead>
+          <tbody id="r-peers-body"></tbody>
+        </table>
+      </div>
+
+    </section>
+
+    <!-- ── Compare ────────────────────────────────────────── -->
+    <section id="compare-section" class="hidden">
+      <div class="cmp-header">
+        <h2>Compare Players</h2>
+        <button id="cmp-close" class="btn-text">✕ Close</button>
+      </div>
+
+      <div class="cmp-search-row">
+        <div id="cmp-p1-pill" class="cmp-pill"></div>
+        <span class="vs-badge">VS</span>
+        <div class="search-wrapper" style="flex:1;max-width:300px">
+          <svg class="search-icon" viewBox="0 0 16 16" fill="none">
+            <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input id="cmp-search" class="search-input" type="text" placeholder="Search player…" autocomplete="off" />
+          <ul id="cmp-autocomplete" class="autocomplete-list hidden"></ul>
+        </div>
+      </div>
+
+      <div id="cmp-loading" class="hidden" style="display:flex;flex-direction:column;align-items:center;gap:1rem;padding:2rem;color:var(--muted)">
+        <div class="spinner"></div>
+        <p>Generating comparison…</p>
+      </div>
+
+      <div id="cmp-result" class="hidden">
+        <div class="cmp-grid">
+          <div id="cmp-col1" class="cmp-col"></div>
+          <div id="cmp-col2" class="cmp-col"></div>
+        </div>
+        <div class="narrative-box" style="margin-top:1rem">
+          <h3 class="section-title">AI Comparison</h3>
+          <div id="cmp-narrative"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How It Works · NFL Contract Intelligence</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="/static/methodology.css" />
+</head>
+<body>
+
+  <header>
+    <h1>NFL Contract Intelligence</h1>
+    <p class="subtitle">2025 Season · Skill Positions Only (QB · RB · WR · TE)</p>
+    <a href="/" class="header-method-btn">← Back</a>
+  </header>
+
+  <main class="method-main">
+
+    <div class="method-hero">
+      <h2>How the Scoring Works</h2>
+      <p>Every player receives a <strong>Value Score</strong> from 0 to 100 that answers one question: is this player outperforming or underperforming their contract relative to peers at the same position? Here's exactly how it's calculated.</p>
+    </div>
+
+    <!-- Step pipeline -->
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Performance Score</h3>
+          <p>Each position uses a custom formula built around the stats most predictive of winning. All scores are multiplied by a <strong>games-played weight</strong> (games played ÷ 17, capped at 1.0) to account for players who missed significant time.</p>
+          <div class="formula-grid">
+            <div class="formula-card">
+              <div class="formula-pos blue-text">QB</div>
+              <code>Passing EPA + (CPOE × 10)</code>
+              <p>EPA captures efficiency on every throw. CPOE measures whether a QB completes passes above or below the difficulty of his attempts.</p>
+            </div>
+            <div class="formula-card">
+              <div class="formula-pos elite-text">WR</div>
+              <code>Receiving EPA + (WOPR × 50)</code>
+              <p>EPA rewards high-value catches. WOPR (Weighted Opportunity Rating) combines target share and air yards share to measure route involvement.</p>
+            </div>
+            <div class="formula-card">
+              <div class="formula-pos fair-text">RB</div>
+              <code>(Rush EPA + Rec EPA) × 0.3<br>+ (YPC − 4.0) × 10 × 0.4<br>+ (Rush Yards ÷ 10) × 0.3</code>
+              <p>RBs are scored on three equally important dimensions: efficiency (EPA), yards per carry above league average (4.0), and raw volume.</p>
+            </div>
+            <div class="formula-card">
+              <div class="formula-pos over-text">TE</div>
+              <code>Receiving EPA + (Target Share × 100)</code>
+              <p>EPA captures play quality. Target share rewards TEs who are featured in the passing game rather than merely serviceable blockers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Normalization (0 – 100)</h3>
+          <p>Raw performance scores are normalized within each position group for the 2025 season. The best performer at each position scores <strong>100</strong>, the worst scores <strong>0</strong>, and everyone else falls proportionally in between. This makes scores comparable across positions and seasons.</p>
+          <div class="callout">
+            A performance score of <strong>72</strong> means this player performed better than 72% of qualified players at their position in 2025 — regardless of how that compares to other positions.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Linear Regression vs. Salary</h3>
+          <p>Within each position group, we run a <strong>linear regression</strong> of performance score against annual contract value (APY). This establishes what level of performance is expected for a given salary.</p>
+          <p style="margin-top:.75rem">A player earning $30M/yr has a higher performance bar than a player earning $5M/yr. The regression captures this relationship across all players at the position.</p>
+          <div class="callout">
+            <strong>Expected Performance</strong> = what the regression predicts for a player at their salary tier.<br>
+            <strong>Value Delta</strong> = Actual Performance − Expected Performance.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Value Score</h3>
+          <p>The Value Delta (regression residual) is normalized to a 0–100 scale within each position, producing the final <strong>Value Score</strong>.</p>
+          <div class="score-legend">
+            <div class="score-legend-row">
+              <span class="tier-badge elite">Elite Value</span>
+              <span>Score ≥ 75 · Top 25% at position — significantly outperforming contract</span>
+            </div>
+            <div class="score-legend-row">
+              <span class="tier-badge fair">Fair Value</span>
+              <span>Score 25–75 · Middle 50% — performing near salary expectations</span>
+            </div>
+            <div class="score-legend-row">
+              <span class="tier-badge over">Overpaid</span>
+              <span>Score &lt; 25 · Bottom 25% — underperforming relative to contract</span>
+            </div>
+          </div>
+          <div class="callout">
+            A score of <strong>50</strong> means the player is performing exactly at what their salary predicts. Above 50 = contract bargain. Below 50 = overpaid.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stat glossary -->
+    <div class="glossary">
+      <h2>Stat Glossary</h2>
+      <div class="glossary-grid">
+        <div class="glossary-item">
+          <dt>EPA</dt>
+          <dd>Expected Points Added. Measures how much a play increased or decreased the team's expected points, accounting for down, distance, and field position. The single most predictive metric in NFL analytics.</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>CPOE</dt>
+          <dd>Completion Percentage Over Expected. Compares a QB's actual completion rate to a model-predicted rate based on the difficulty of each throw (air yards, receiver separation, pressure). Removes the bias from playing with elite receivers.</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>WOPR</dt>
+          <dd>Weighted Opportunity Rating. A composite of target share (40%) and air yards share (60%) that measures how much of the passing game flows through a receiver. Highly correlated with future receiving production.</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>YPC</dt>
+          <dd>Yards Per Carry. The league average is approximately 4.0 yards per carry. The RB formula explicitly rewards carries above this threshold, treating average rushing efficiency as the baseline.</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>Target Share</dt>
+          <dd>Percentage of a team's total pass attempts directed at a given receiver. Used for TEs where absolute receiving totals can be misleading — a TE on a run-heavy team may have fewer targets but a high share of available opportunities.</dd>
+        </div>
+        <div class="glossary-item">
+          <dt>APY</dt>
+          <dd>Average Per Year contract value (in millions). The primary salary variable used in the regression. Does not account for guaranteed money or restructured contracts.</dd>
+        </div>
+      </div>
+    </div>
+
+    <!-- Caveats -->
+    <div class="caveats">
+      <h2>Important Caveats</h2>
+      <ul>
+        <li><strong>Rookie contracts are labeled separately</strong> because players on pre-extension rookie deals earn far below market rate by design. Comparing them directly to veterans would make every rookie appear as an "Elite Value" contract.</li>
+        <li><strong>Only 2025 regular season stats are used.</strong> Playoff performance, injuries to supporting cast (offensive line, quarterback), and team scheme are not factored in.</li>
+        <li><strong>Position minimums apply.</strong> Players with fewer than 100 pass attempts (QB), 20 carries (RB), 20 targets (WR), or 15 targets (TE) are excluded to avoid noise from small samples.</li>
+        <li><strong>Scores are relative, not absolute.</strong> A value score of 70 means outperforming 70% of peers — not that the player is objectively good. A bad position class lifts all scores.</li>
+      </ul>
+    </div>
+
+    <!-- Data sources -->
+    <div class="sources">
+      <h2>Data Sources</h2>
+      <div class="sources-grid">
+        <div class="source-card">
+          <div class="source-title">Player Stats</div>
+          <div class="source-sub">nflreadpy · nflverse</div>
+          <div class="source-desc">2025 NFL regular season player statistics via the nflverse open data project.</div>
+        </div>
+        <div class="source-card">
+          <div class="source-title">Contract Data</div>
+          <div class="source-sub">nflverse historical contracts</div>
+          <div class="source-desc">Historical contract database including APY, guaranteed money, and signing year for all active contracts.</div>
+        </div>
+        <div class="source-card">
+          <div class="source-title">AI Reports</div>
+          <div class="source-sub">Claude API · Anthropic</div>
+          <div class="source-desc">Natural language valuation reports and player comparisons generated by Claude using computed scores and stats as input.</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
